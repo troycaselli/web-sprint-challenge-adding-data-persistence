@@ -1,3 +1,7 @@
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
 exports.up = async function(knex) {
     await knex.schema
         .createTable('projects', table => {
@@ -6,7 +10,7 @@ exports.up = async function(knex) {
                 .notNullable()
             table.string('project_description')
             table.boolean('project_completed')
-                .default(0)
+                .defaultTo(0)
         })
         .createTable('resources', table => {
             table.increments('resource_id')
@@ -17,17 +21,17 @@ exports.up = async function(knex) {
         })
         .createTable('project_resources', table => {
             table.increments('project_resources_id')
-            table.integer('projects_id')
+            table.integer('project_id')
                 .unsigned()
                 .notNullable()
                 .references('project_id')
                 .inTable('projects')
                 .onDelete('RESTRICT')
                 .onUpdate('RESTRICT')
-            table.integer('resources_id')
+            table.integer('resource_id')
                 .unsigned()
                 .notNullable()
-                .references('resources_id')
+                .references('resource_id')
                 .inTable('resources')
                 .onDelete('RESTRICT')
                 .onUpdate('RESTRICT')
@@ -38,7 +42,7 @@ exports.up = async function(knex) {
                 .notNullable()
             table.string('task_notes')
             table.boolean('task_completed')
-                .default(0)
+                .defaultTo(0)
             table.integer('project_id')
                 .unsigned()
                 .notNullable()

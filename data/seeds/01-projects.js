@@ -1,13 +1,18 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
- */
 exports.seed = async function(knex) {
-  // Deletes ALL existing entries
-  await knex('table_name').del()
-  await knex('table_name').insert([
-    {id: 1, colName: 'rowValue1'},
-    {id: 2, colName: 'rowValue2'},
-    {id: 3, colName: 'rowValue3'}
+  await knex('projects').insert([
+    {
+      project_name: 'Hang Drywall', 
+      project_description: 'Hang drywall in basement', 
+      project_completed: false
+    },
+    {
+      project_name: 'Paint', 
+      project_completed: 0
+    },
+    {
+      project_name: 'Hang Pictures', 
+      project_description: 
+        'Decorate the game room with your favorite pictures'
+    }
   ]);
 };
