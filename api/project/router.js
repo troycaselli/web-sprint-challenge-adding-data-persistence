@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Projects = require('./model');
+const {checkProjectName} = require('./middleware');
 
 
 router.get('/', async (req, res, next) => {
@@ -11,13 +12,13 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-// router.post('/', checkResourceName, async (req, res, next) => {
-//     try {
-//         const createdResource = await Resources.createResource(req.body);
-//         res.status(201).json(createdResource);
-//     } catch (err) {
-//         next(err);
-//     }
-// })
+router.post('/', checkProjectName, async (req, res, next) => {
+    try {
+        const createdProject = await Projects.createProject(req.body);
+        res.status(201).json(createdProject);
+    } catch (err) {
+        next(err);
+    }
+})
 
 module.exports = router;

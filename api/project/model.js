@@ -14,20 +14,27 @@ async function getProjects() {
     return result
 }
 
-async function createResource(resource) {
-    await db('resources')
-        .insert(resource)
-    return findResourceByName(resource.resource_name)
+async function createProject(project) {
+    const [result] = await db('projects')
+        .insert(project)
+    const newProject = await findProjectById(result)
+    if(
+        newProject.project_completed > 0
+        || newProject.project_completed === true) {
+            return {...newProject, project_completed: true}
+    } else {
+        return {...newProject, project_completed: false}
+    }
 }
 
-function findResourceByName(resource_name) {
-    return db('resources')
-        .where({resource_name})
+function findProjectById(project_id) {
+    return db('projects')
+        .where({project_id})
         .first()
 }
 
 module.exports = {
     getProjects,
-    createResource,
-    findResourceByName
+    createProject,
+    findProjectById
 }
