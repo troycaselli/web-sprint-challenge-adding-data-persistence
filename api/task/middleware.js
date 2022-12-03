@@ -1,19 +1,19 @@
-const {findResourceByName} = require('./model');
+const {findProjectById} = require('./model');
 
 module.exports = {
     checkTaskData
 }
 
 async function checkTaskData(req, res, next) {
-    const {resource_name} = req.body;
-    if(!resource_name) {
-        next({status: 400, message: 'Resource name is required'});
+    const {task_description, project_id} = req.body;
+    if(!task_description || !project_id) {
+        next({status: 400, message: 'Task description and project id are required'});
     } else {
-        const existing = await findResourceByName(resource_name)
+        const existing = await findProjectById(project_id)
         if(!existing) {
-            next();
+            next({status: 404, message: `Project with an id of ${project_id} does not exist`});
         } else {
-            next({status: 400, message: `Resource ${resource_name} already exists`});
+            next();
         }
     }
 }

@@ -12,13 +12,13 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-// router.post('/', checkProjectName, async (req, res, next) => {
-//     try {
-//         const createdProject = await Projects.createProject(req.body);
-//         res.status(201).json(createdProject);
-//     } catch (err) {
-//         next(err);
-//     }
-// })
+router.post('/', checkTaskData, async (req, res, next) => {
+    try {
+        const createdTask = await Tasks.createTask(req.body);
+        res.status(201).json(createdTask);
+    } catch (err) {
+        next(err);
+    }
+})
 
 module.exports = router;

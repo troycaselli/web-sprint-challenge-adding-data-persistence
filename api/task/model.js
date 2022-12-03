@@ -28,9 +28,25 @@ async function getTasks() {
 }
 
 async function createTask(task) {
-    const result = await db('tasks')
+    const taskId = await db('tasks')
         .insert(task)
-    return findTaskById(result)
+    const newTask = await findTaskById(taskId)
+
+    if(
+        newTask.task_completed > 0
+        || newTask.task_completed === true) {
+            return ({
+                task_completed: true,
+                task_description: newTask.task_description,
+                task_notes: newTask.task_notes
+            })
+    } else {
+        return ({
+            task_completed: false,
+            task_description: newTask.task_description,
+            task_notes: newTask.task_notes
+        })
+    }
 }
 
 function findTaskById(task_id) {
@@ -39,8 +55,15 @@ function findTaskById(task_id) {
         .first()
 }
 
+function findProjectById(project_id) {
+    return db('projects')
+        .where({project_id})
+        .first()
+}
+
 module.exports = {
     getTasks,
     createTask,
-    findTaskById
+    findTaskById,
+    findProjectById
 }
