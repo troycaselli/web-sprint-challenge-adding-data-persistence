@@ -3,7 +3,7 @@ exports.seed = async function(knex) {
     {
       project_name: 'Hang Drywall', 
       project_description: 'Hang drywall in basement', 
-      project_completed: false
+      project_completed: 0
     },
     {
       project_name: 'Paint', 
